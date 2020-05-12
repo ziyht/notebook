@@ -15,7 +15,9 @@ Compose 项目是由Python编写的，实际上就是调用了Docker服务提供
 
 ## 安装
 
-### 1. 二进制包安装
+### centos
+
+#### 1. 二进制包安装
 
 ```sh
 [root@operation ~]# curl -L https://github.com/docker/compose/releases/download/1.23.0-rc2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
@@ -31,7 +33,7 @@ CPython version: 3.6.6
 OpenSSL version: OpenSSL 1.1.0f  25 May 2017
 ```
 
-### 2. pip安装
+#### 2. pip安装
 
 ```sh
 [root@operation ~]# pip install docker-compose
@@ -43,7 +45,7 @@ CPython version: 2.7.5
 OpenSSL version: OpenSSL 1.0.1e-fips 11 Feb 2013
 ```
 
-### 3. 容器安装
+#### 3. 容器安装
 
 ```sh
 [root@operation ~]# curl -L https://github.com/docker/compose/releases/download/1.23.0-rc2/run.sh > /usr/local/bin/docker-compose
@@ -71,6 +73,10 @@ CPython version: 3.6.6
 
 OpenSSL version: OpenSSL 1.1.0f  25 May 2017
 ```
+
+### macos
+
+下载安装 [docker toolbox](https://github.com/docker/toolbox/releases)
 
 ## 命令
 
