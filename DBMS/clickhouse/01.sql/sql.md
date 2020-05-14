@@ -1,4 +1,4 @@
-[官方文档](https://clickhouse.tech/docs/v19.14/zh/)
+
 
 ## `表操作`
 
@@ -26,6 +26,61 @@ alter table dsp_statis add column cost UInt32 default 0;
 
 ```sql
 desc tbl;
+```
+
+
+
+```mysql
+#添加列
+ALTER TABLE [db].name [ON CLUSTER cluster] ADD COLUMN [IF NOT EXISTS] name [type] [default_expr] [AFTER name_after]
+#删除列
+ALTER TABLE [db].name [ON CLUSTER cluster] DROP COLUMN [IF EXISTS] name
+#重置指定分区中列的所有数据
+ALTER TABLE [db].name [ON CLUSTER cluster] CLEAR COLUMN [IF EXISTS] name IN PARTITION partition_name
+#添加列注解
+ALTER TABLE [db].name [ON CLUSTER cluster] COMMENT COLUMN [IF EXISTS] name 'comment'
+#修改列类型或者列的默认值
+ALTER TABLE [db].name [ON CLUSTER cluster] MODIFY COLUMN [IF EXISTS] name [type] [default_expr]
+#添加索引
+ALTER TABLE [db].name ADD INDEX name expression TYPE type GRANULARITY value AFTER name [AFTER name2]
+#删除索引
+ALTER TABLE [db].name DROP INDEX name
+#分离分区
+ALTER TABLE table_name DETACH PARTITION partition_expr
+#删除分区
+ALTER TABLE table_name DROP PARTITION partition_expr
+#添加被分离的分区
+ALTER TABLE table_name ATTACH PARTITION|PART partition_expr
+#复制table1中的分区数据到table2
+ALTER TABLE table2 REPLACE PARTITION partition_expr FROM table1
+#重置列值为默认值，默认值为创建表时指定
+ALTER TABLE table_name CLEAR COLUMN column_name IN PARTITION partition_expr
+#创建指定分区或者所有分区的备份
+ALTER TABLE table_name FREEZE [PARTITION partition_expr]
+#从其他分片中复制分区数据
+ALTER TABLE table_name FETCH PARTITION partition_expr FROM 'path-in-zookeeper'
+```
+
+
+
+### 查询
+
+```mysql
+SELECT [DISTINCT] expr_list
+    [FROM [db.]table | (subquery) | table_function] [FINAL]
+    [SAMPLE sample_coeff]
+    [ARRAY JOIN ...]
+    [GLOBAL] ANY|ALL INNER|LEFT JOIN (subquery)|table USING columns_list
+    [PREWHERE expr]
+    [WHERE expr]
+    [GROUP BY expr_list] [WITH TOTALS]
+    [HAVING expr]
+    [ORDER BY expr_list]
+    [LIMIT [n, ]m]
+    [UNION ALL ...]
+    [INTO OUTFILE filename]
+    [FORMAT format]
+    [LIMIT n BY columns]
 ```
 
 
