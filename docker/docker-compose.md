@@ -17,7 +17,7 @@ Compose 项目是由Python编写的，实际上就是调用了Docker服务提供
 
 ### centos
 
-#### 1. 二进制包安装
+#### 1. 二进制包安装（推荐）
 
 ```sh
 [root@operation ~]# curl -L https://github.com/docker/compose/releases/download/1.23.0-rc2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
