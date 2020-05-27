@@ -202,6 +202,22 @@ version: "3"
 
 
 
+### 日志配置
+
+```yaml
+logging:
+  options:
+    max-size: '12m'
+    max-file: '5'
+  driver: json-file
+```
+
+
+
+
+
+
+
 ```yaml
 version           # 指定 compose 文件的版本
 services          # 定义所有的 service 信息, services 下面的第一级别的 key 既是一个 service 的名称

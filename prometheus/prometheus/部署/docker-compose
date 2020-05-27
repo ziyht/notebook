@@ -1,0 +1,99 @@
+## docker-compose
+
+### 1. 创建工程目录
+
+```sh
+mkdir prometheus
+cd prometheus
+```
+
+### 2. 创建数据目录
+
+```sh
+mkdir -P data/prometheus
+```
+
+### 3. 创建配置文件
+
+> 按需创建配置文件
+
+基本配置文件如下，详细的配置请查看配置文档。
+
+```yaml
+# my global config
+global:
+  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      # - alertmanager:9093
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+
+    static_configs:
+    - targets: ['localhost:9091']
+
+#remote_read:
+#- url: "http://172.18.1.207:9402/read?db=prometheus&table=click2"
+#  remote_timeout: 20m
+```
+
+### 3. 创建docker-compose.yml 文件
+
+```yaml
+version: '2.0'
+services:
+
+  prometheus:
+    image: prom/prometheus:v2.18.1
+    container_name: my_prometheus
+    restart: always
+    command: "--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/var/lib/prometheus --web.listen-address=:9090 --storage.tsdb.retention.time=30d --web.enable-lifecycle"
+    #user : --user 1014   # id -u qos
+    ports:
+      - 9090:9090
+    volumes:
+      - ./:/etc/prometheus/
+      - ./data/prometheus:/var/lib/prometheus
+    #network_mode: host
+```
+
+### 4. 启动prometheus
+
+先尝试前台启动
+
+```sh
+docker-compose up prometheus
+```
+
+如果出现报错，很有可能是自动创建的数据目录没有权限，使用如下命令为目录添加读写权限
+
+```sh
+chmod 777 -R ./data
+```
+
+继续测试，没有问题后，后台启动即可
+
+```sh
+docker-compose up -d prometheus
+```
+
+
+
