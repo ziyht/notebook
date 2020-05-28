@@ -1,4 +1,4 @@
-## 配置
+## `配置`
 
 [官方文档](https://github.com/prometheus/blackbox_exporter/blob/master/CONFIGURATION.md)
 
@@ -225,4 +225,81 @@ validate_additional_rrs:
 
 # Used to verify the hostname for the targets.
 [ server_name: <string> ]
+```
+
+## `prometheus 配置`
+
+### 监控主机存活状态
+
+```yaml
+  - job_name: node_status
+    metrics_path: /probe
+    params:
+      module: [icmp]
+    static_configs:
+      - targets: ['10.165.94.31']
+        labels:
+          instance: node_status
+          group: 'node'
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - target_label: __address__
+        replacement: 172.19.155.133:9115
+```
+
+__注意：__10.165.94.31是被监控端ip，172.19.155.133是Blackbox_exporter
+
+### 监控端口存活状态
+
+```yaml
+  - job_name: 'prometheus_port_status'
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: ['172.19.155.133:8765']
+        labels:
+          instance: 'port_status'
+          group: 'tcp'
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 172.19.155.133:9115
+```
+
+### 监控网站状态
+
+```yaml
+  - job_name: web_status
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets: ['http://www.baidu.com']
+        labels:
+          instance: user_status
+          group: 'web'
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - target_label: __address__
+        replacement: 172.19.155.133:9115
+```
+
+## `配置grafana`
+
+[Blackbox Exporter 0.14 for Prometheus](https://grafana.com/grafana/dashboards/9965)
+
+---
+
+此模块需安装 `Pie Chart`
+
+https://grafana.com/grafana/plugins/grafana-piechart-panel
+
+```sh
+grafana-cli plugins install grafana-piechart-panel
 ```
