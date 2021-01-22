@@ -233,3 +233,60 @@ print(re.sub('(?P<value>\d+)', double, s))
 ```
 A46G8HFD1134
 ```
+
+### 查找
+
+#### search
+
+```python
+#!/usr/bin/python
+import re
+ 
+line = "Cats are smarter than dogs";
+ 
+searchObj = re.search( r'(.*) are (.*?) .*', line, re.M|re.I)
+ 
+if searchObj:
+   print "searchObj.group() : ", searchObj.group()
+   print "searchObj.group(1) : ", searchObj.group(1)
+   print "searchObj.group(2) : ", searchObj.group(2)
+else:
+   print "Nothing found!!"
+```
+
+```
+searchObj.group() :  Cats are smarter than dogs
+searchObj.group(1) :  Cats
+searchObj.group(2) :  smarter
+```
+
+#### findall
+
+在字符串中找到正则表达式所匹配的所有子串，并返回一个列表，如果没有找到匹配的，则返回空列表。
+
+**注意：** match 和 search 是匹配一次 findall 匹配所有。
+
+语法格式为：
+
+```
+findall(string[, pos[, endpos]])
+```
+
+```python
+# -*- coding:UTF8 -*-
+ 
+import re
+ 
+pattern = re.compile(r'\d+')   # 查找数字
+result1 = pattern.findall('runoob 123 google 456')
+result2 = pattern.findall('run88oob123google456', 0, 10)
+ 
+print(result1)
+print(result2)
+```
+
+```
+['123', '456']
+['88', '12']
+```
+
