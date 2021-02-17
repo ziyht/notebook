@@ -164,3 +164,23 @@ flask-compress的after_request方法
 链接：https://www.jianshu.com/p/0e8cd091e2da
 来源：简书
 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+
+### 主动退出
+
+```python
+from flask import request
+
+def shutdown_server():
+    func = request.environ.get('werkzeug.server.shutdown')
+    if func is None:
+        raise RuntimeError('Not running with the Werkzeug Server')
+    func()
+
+@app.route('/shutdown', methods=['POST'])
+def shutdown():
+    shutdown_server()
+    return 'Server shutting down...'
+```
+
