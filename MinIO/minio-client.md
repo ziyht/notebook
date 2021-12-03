@@ -40,6 +40,70 @@ admin       manage MinIO servers
 update      update mc to latest release
 ```
 
+### alias - 添加，删除，修改服务
+
+```
+$ ./mc alias --help
+NAME:
+  mc alias - set, remove and list aliases in configuration file
+
+USAGE:
+  mc alias COMMAND [COMMAND FLAGS | -h] [ARGUMENTS...]
+
+COMMANDS:
+  set, s      set a new alias to configuration file
+  list, ls    list aliases in configuration file
+  remove, rm  remove an alias from configuration file
+  
+FLAGS:
+  --config-dir value, -C value  path to configuration folder (default: "/share/home/qos/.mc")
+  --quiet, -q                   disable progress bar display
+  --no-color                    disable color theme
+  --json                        enable JSON lines formatted output
+  --debug                       enable debug output
+  --insecure                    disable SSL certificate verification
+  --help, -h                    show help
+```
+
+#### set
+
+```
+mc alias set <ALIAS> <YOUR-S3-ENDPOINT> <YOUR-ACCESS-KEY> <YOUR-SECRET-KEY> --api <API-SIGNATURE> --path <BUCKET-LOOKUP-TYPE>
+```
+
+```sh
+mc alias set minio http://192.168.1.51 BKIKJAA5BMMU2RHO6IBB V7f1CwQqAcwo80UEIJEjc5gVQUSSx5ohQ9GSrr12
+mc ls minio # 测试列出文件
+```
+
+#### ls
+
+```
+./mc alias ls
+gcs  
+  URL       : https://storage.googleapis.com
+  AccessKey : YOUR-ACCESS-KEY-HERE
+  SecretKey : YOUR-SECRET-KEY-HERE
+  API       : S3v2
+  Path      : dns
+
+local
+  URL       : http://localhost
+  AccessKey : admin
+  SecretKey : qos@minio@zw6-8|abc
+  API       : s3v4
+  Path      : auto
+
+minio
+  URL       : http://localhost:19000
+  AccessKey : admin
+  SecretKey : qos@minio@zw6-8|abc
+  API       : S3v4
+  Path      : auto
+```
+
+
+
 ### mirror - 同步
 
 ```
